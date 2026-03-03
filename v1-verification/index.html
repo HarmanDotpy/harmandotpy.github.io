@@ -514,7 +514,7 @@
                 Pairwise verification provides the most significant improvements on harder problems. On <strong>hard problems</strong> in LiveCodeBench-v6 (GPT-OSS-20B, N=16), pairwise verification with 3x budget achieves <strong>+23.7%</strong> improvement over Pass@1, compared to +15.4% on medium and +0.7% on easy problems (which are already near ceiling at 96%).
             </p>
             <div class="figure">
-                <img src="assets/figure_difficulty.png" alt="Difficulty-level accuracy breakdown" style="max-width:70%">
+                <img src="assets/figure_difficulty.png" alt="Difficulty-level accuracy breakdown" style="max-width:60%">
                 <div class="figure-caption">
                     Accuracy by problem difficulty on LCB-v6 (GPT-OSS-20B, N=16) as verification budget increases. Hard problems benefit the most, gaining +23.7% at 3x budget.
                 </div>
@@ -528,7 +528,7 @@
                 V<sub>1</sub>-Infer generalizes beyond competitive programming and math to real-world software engineering tasks. On <strong>SWE-bench Lite</strong> (300 instances, 8 candidates, Gemini 2.5 Flash), pairwise verification achieves a <strong>33.3%</strong> resolve rate, outperforming pointwise (28.3%) and vanilla Pass@1 (26.3%). Notably, the verifier uses only issue descriptions and patch diffs, with no access to repository context or agent trajectories.
             </p>
             <div class="figure">
-                <img src="assets/figure_swe_bench.png" alt="SWE-bench Lite results" style="max-width:70%">
+                <img src="assets/figure_swe_bench.png" alt="SWE-bench Lite results" style="max-width:60%">
                 <div class="figure-caption">
                     Resolve rate on SWE-bench Lite (300 instances, N=8 candidates, Gemini 2.5 Flash). Pairwise verification achieves 33.3%, a +5.0% improvement over pointwise and +7.0% over vanilla.
                 </div>
@@ -561,7 +561,7 @@
                 An important ablation compares co-evolving V<sub>1</sub>-PairRL (where verification data comes from the model's own current rollouts) with a non-co-evolving variant (where verification is trained on fixed, offline data). Co-evolving training consistently outperforms across all benchmarks, with gains of <strong>+4.2% to +6.1%</strong>, confirming that keeping the verifier in-distribution with the generator's evolving output is crucial.
             </p>
             <div class="figure">
-                <img src="assets/figure_coevolving.png" alt="Co-evolving vs non-co-evolving ablation" style="max-width:70%">
+                <img src="assets/figure_coevolving.png" alt="Co-evolving vs non-co-evolving ablation" style="max-width:60%">
                 <div class="figure-caption">
                     Co-evolving V<sub>1</sub>-PairRL consistently outperforms non-co-evolving training at 2x budget: +5.2% on LCB-v5, +4.2% on LCB-v6, and +6.1% on CodeContests.
                 </div>
