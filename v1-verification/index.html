@@ -528,7 +528,7 @@
                 V<sub>1</sub>-Infer generalizes beyond competitive programming and math to real-world software engineering tasks. On <strong>SWE-bench Lite</strong> (300 instances, 8 candidates, Gemini 2.5 Flash), pairwise verification achieves a <strong>33.3%</strong> resolve rate, outperforming pointwise (28.3%) and vanilla Pass@1 (26.3%). Notably, the verifier uses only issue descriptions and patch diffs, with no access to repository context or agent trajectories.
             </p>
             <div class="figure">
-                <img src="assets/figure_swe_bench.png" alt="SWE-bench Lite results">
+                <img src="assets/figure_swe_bench.png" alt="SWE-bench Lite results" style="max-width:70%">
                 <div class="figure-caption">
                     Resolve rate on SWE-bench Lite (300 instances, N=8 candidates, Gemini 2.5 Flash). Pairwise verification achieves 33.3%, a +5.0% improvement over pointwise and +7.0% over vanilla.
                 </div>
@@ -561,7 +561,7 @@
                 An important ablation compares co-evolving V<sub>1</sub>-PairRL (where verification data comes from the model's own current rollouts) with a non-co-evolving variant (where verification is trained on fixed, offline data). Co-evolving training consistently outperforms across all benchmarks, with gains of <strong>+4.2% to +6.1%</strong>, confirming that keeping the verifier in-distribution with the generator's evolving output is crucial.
             </p>
             <div class="figure">
-                <img src="assets/figure_coevolving.png" alt="Co-evolving vs non-co-evolving ablation">
+                <img src="assets/figure_coevolving.png" alt="Co-evolving vs non-co-evolving ablation" style="max-width:70%">
                 <div class="figure-caption">
                     Co-evolving V<sub>1</sub>-PairRL consistently outperforms non-co-evolving training at 2x budget: +5.2% on LCB-v5, +4.2% on LCB-v6, and +6.1% on CodeContests.
                 </div>
