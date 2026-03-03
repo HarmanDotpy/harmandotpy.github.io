@@ -124,6 +124,25 @@
             margin: 20px 0 50px;
         }
 
+        .video-row {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .video-col {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .video-col .video-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
         .video-container {
             border-radius: 12px;
             overflow: hidden;
@@ -337,6 +356,9 @@
             .figure-row {
                 flex-direction: column;
             }
+            .video-row {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -389,11 +411,23 @@
 
         <!-- Video / Animation -->
         <div class="video-section">
-            <div class="video-container">
-                <video autoplay loop muted playsinline>
-                    <source src="assets/v1_animation.mp4" type="video/mp4">
-                    <img src="assets/v1_animation.gif" alt="V1 Animation">
-                </video>
+            <div class="video-row">
+                <div class="video-col">
+                    <div class="video-label">V<sub>1</sub>-Infer</div>
+                    <div class="video-container">
+                        <video controls muted playsinline preload="metadata">
+                            <source src="assets/v1_infer_animation.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <div class="video-col">
+                    <div class="video-label">V<sub>1</sub>-PairRL</div>
+                    <div class="video-container">
+                        <video controls muted playsinline preload="metadata">
+                            <source src="assets/v1_pairrl_animation.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
             </div>
         </div>
 
