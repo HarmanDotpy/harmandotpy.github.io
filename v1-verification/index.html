@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V1: Unifying Generation and Self-Verification for Parallel Reasoners</title>
+    <meta name="description" content="V1: A framework that unifies generation and self-verification through efficient pairwise ranking for LLMs.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4CAF93;
+            --primary-light: #64C3FF;
+            --accent: #E89374;
+            --bg: #0d1117;
+            --bg-card: #161b22;
+            --bg-card-hover: #1c2129;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --border: #30363d;
+            --link: #64C3FF;
+            --link-hover: #8dd3ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            color: var(--primary-light);
+        }
+
+        .hero h1 sub {
+            font-size: 0.6em;
+            vertical-align: baseline;
+            position: relative;
+            top: 0.3em;
+        }
+
+        .authors {
+            font-size: 1.05rem;
+            color: var(--text);
+            margin-bottom: 6px;
+            line-height: 1.8;
+        }
+
+        .authors .equal {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .affiliations {
+            font-size: 1.2rem;
+            color: var(--primary-light);
+            margin-bottom: 24px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 22px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            background: var(--bg-card);
+        }
+
+        .links a:hover {
+            border-color: var(--primary);
+            background: var(--bg-card-hover);
+            color: var(--primary-light);
+        }
+
+        .links a svg {
+            width: 18px;
+            height: 18px;
+            fill: currentColor;
+        }
+
+        /* Video */
+        .video-section {
+            margin: 20px 0 50px;
+        }
+
+        .video-container {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #000;
+        }
+
+        .video-container video,
+        .video-container img {
+            width: 100%;
+            display: block;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: var(--text);
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .section p strong {
+            color: var(--text);
+        }
+
+        /* Abstract */
+        .abstract-text {
+            font-size: 1.02rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            text-align: justify;
+        }
+
+        /* Key Results */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 22px;
+            transition: border-color 0.2s;
+        }
+
+        .result-card:hover {
+            border-color: var(--primary);
+        }
+
+        .result-card .metric {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+
+        .result-card .metric.accent {
+            color: var(--primary-light);
+        }
+
+        .result-card .label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Figures */
+        .figure {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .figure img {
+            max-width: 100%;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background: #fff;
+            padding: 12px;
+        }
+
+        .figure-caption {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-style: italic;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Figure row (side by side) */
+        .figure-row {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+            margin: 30px 0;
+        }
+
+        .figure-row .figure {
+            flex: 1;
+            margin: 0;
+        }
+
+        .figure-row .figure img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Method */
+        .method-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 18px;
+        }
+
+        .method-block h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-light);
+        }
+
+        .method-block p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        /* Bullet list */
+        .result-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .result-list li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .result-list li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 16px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        .result-list li strong {
+            color: var(--text);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            margin-top: 30px;
+        }
+
+        footer p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--link);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            .links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .figure-row {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- Hero -->
+        <div class="hero">
+            <h1>V<sub>1</sub>: Unifying Generation and Self-Verification for Parallel Reasoners</h1>
+
+            <div class="authors">
+                Harman Singh*&nbsp;&nbsp;&nbsp;
+                Xiuyu Li*
+                <br>
+                Kusha Sareen&nbsp;&nbsp;
+                Monishwaran Maheswaran&nbsp;&nbsp;
+                Sijun Tan&nbsp;&nbsp;
+                Xiaoxia Wu&nbsp;&nbsp;
+                Junxiong Wang&nbsp;&nbsp;
+                Alpay Ariyak
+                <br>
+                Qingyang Wu&nbsp;&nbsp;
+                Samir Khaki&nbsp;&nbsp;
+                Rishabh Tiwari&nbsp;&nbsp;
+                Long Lian&nbsp;&nbsp;
+                Yucheng Lu&nbsp;&nbsp;
+                Boyi Li
+                <br>
+                Alane Suhr&nbsp;&nbsp;&nbsp;
+                Ben Athiwaratkun&nbsp;&nbsp;&nbsp;
+                Kurt Keutzer
+                <br><span class="equal">* Equal contribution</span>
+            </div>
+
+            <div class="affiliations">
+                UC Berkeley&nbsp;&nbsp;&nbsp;&nbsp;Mila&nbsp;&nbsp;&nbsp;&nbsp;Together AI
+            </div>
+
+            <div class="links">
+                <a href="https://harmandotpy.github.io/data/Parallel_Self_Verification_ICML26.pdf">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
+                    Paper
+                </a>
+            </div>
+        </div>
+
+        <!-- Video / Animation -->
+        <div class="video-section">
+            <div class="video-container">
+                <video autoplay loop muted playsinline>
+                    <source src="assets/v1_animation.mp4" type="video/mp4">
+                    <img src="assets/v1_animation.gif" alt="V1 Animation">
+                </video>
+            </div>
+        </div>
+
+        <!-- Abstract -->
+        <div class="section">
+            <h2>Abstract</h2>
+            <p class="abstract-text">
+                Test-time scaling for complex reasoning tasks shows that leveraging inference compute, by methods such as independently sampling and aggregating multiple solutions, results in significantly better task outcomes. However, a critical bottleneck is <em>verification</em>: sampling is only effective if correct solutions can be reliably identified among candidates. While existing approaches typically evaluate candidates independently via scalar scoring, we demonstrate that models are substantially stronger at <strong>pairwise self-verification</strong>. Leveraging this insight, we introduce V<sub>1</sub>, a framework that unifies generation and verification through efficient pairwise ranking. V<sub>1</sub> comprises two components: <strong>V<sub>1</sub>-Infer</strong>, an uncertainty-guided algorithm using a tournament-based ranking that dynamically allocates self-verification compute to candidate pairs whose relative correctness is most uncertain; and <strong>V<sub>1</sub>-PairRL</strong>, an RL framework that <strong>jointly trains</strong> a single model as both generator and pairwise self-verifier, ensuring the verifier adapts to the generator's evolving distribution. On code generation (LiveCodeBench, CodeContests, SWE-Bench) and math reasoning (AIME, HMMT) benchmarks, V<sub>1</sub>-Infer improves Pass@1 by up to 10% over pointwise verification and outperforms recent test-time scaling methods while being significantly more efficient. Furthermore, V<sub>1</sub>-PairRL achieves 7&ndash;9% test-time scaling gains over standard RL and pointwise joint training, and improves base Pass@1 by up to 8.7% over standard RL in a code-generation setting.
+            </p>
+        </div>
+
+        <!-- Key Results at a Glance -->
+        <div class="section">
+            <h2>Key Results</h2>
+            <div class="results-grid">
+                <div class="result-card">
+                    <div class="metric">+3.3% to +10%</div>
+                    <div class="label">Pass@1 improvement over pointwise verification with V<sub>1</sub>-Infer across code (CodeContests, LiveCodeBench) and math (AIME, HMMT) benchmarks</div>
+                </div>
+                <div class="result-card">
+                    <div class="metric accent">+7&ndash;9%</div>
+                    <div class="label">Test-time scaling gains with V<sub>1</sub>-PairRL over standard RL and pointwise joint training</div>
+                </div>
+                <div class="result-card">
+                    <div class="metric">+8.7%</div>
+                    <div class="label">Base Pass@1 improvement over standard RL (V<sub>1</sub>-PairRL, CodeContests)</div>
+                </div>
+                <div class="result-card">
+                    <div class="metric accent">+23.7%</div>
+                    <div class="label">Accuracy gain on hard problems with pairwise verification (LCB-v6, 3x budget)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Method Overview -->
+        <div class="section">
+            <h2>Method</h2>
+            <div class="method-block">
+                <h3>V<sub>1</sub>-Infer: Uncertainty-Guided Pairwise Verification</h3>
+                <p>
+                    V<sub>1</sub>-Infer selects the best solution among N parallel-generated candidates by performing pairwise comparisons instead of independent scoring. It operates in two phases: (1) <strong>Topology Coverage</strong>, which ensures every solution is compared a minimum number of times via degree-constrained pairing, and (2) <strong>Swiss Refinement</strong>, which dynamically pairs solutions with similar quality scores to resolve ambiguous rankings. This concentrates the limited verification budget on the most informative comparisons. Scores are aggregated using confidence-weighted win rates derived from the magnitude of rating differences in each pairwise judgment.
+                </p>
+            </div>
+            <div class="method-block">
+                <h3>V<sub>1</sub>-PairRL: Co-Evolving Generation and Verification</h3>
+                <p>
+                    V<sub>1</sub>-PairRL is a unified RL framework that jointly trains a single LLM to be both a strong solution generator and an accurate pairwise self-verifier. The training objective combines a standard GRPO-based generation loss (J<sub>Gen</sub>) with a pairwise verification loss (J<sub>PairVerif</sub>) that rewards the model for correctly rating pairs of its own solutions. Critically, V<sub>1</sub>-PairRL uses an online co-evolving setup where verification training data comes from the model's own current-iteration rollouts, ensuring the verifier always trains on in-distribution data as the generator improves.
+                </p>
+            </div>
+        </div>
+
+        <!-- Motivation -->
+        <div class="section">
+            <h2>Motivation: Limitations of Current Self-Verification and Aggregation</h2>
+            <p>
+                <strong>Pointwise self-verification suffers from calibration collapse.</strong> Standard pointwise verification assigns scalar scores to solutions in isolation. This approach is fundamentally limited by the lack of a comparative reference set. Absolute scores lack a globally comparable scale, leading to high variance and poor cross-context calibration, often over-scoring plausible but incorrect solutions. <em>Pairwise</em> judgments simplify the task to a well-posed relative comparison, yielding significantly higher top-1 self-ranking accuracy.
+            </p>
+            <p>
+                <strong>Self-aggregation leads to reduction in Pass@N and diversity collapse.</strong> Self-aggregation based methods prompt the same LLM to consolidate parallel solutions into one. While they can improve Pass@1, they may lead to <em>diversity collapse</em>: the Pass@N score (representing the probability that <em>at least one</em> correct solution exists among N candidates) monotonically decreases as aggregation steps increase for Recursive Self-Aggregation (RSA). This indicates that RSA frequently discards or degrades correct outlier solutions during refinement.
+            </p>
+            <div class="figure-row">
+                <div class="figure">
+                    <img src="assets/figure_ranking_accuracy.png" alt="Ranking accuracy: pairwise vs pointwise">
+                    <div class="figure-caption">
+                        Pairwise self-verification achieves +4.7% to +6.1% higher top-1 ranking accuracy over pointwise.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="assets/figure_rsa_gptoss.png" alt="RSA collapse: GPT-OSS-20B">
+                    <div class="figure-caption">
+                        RSA shows declining Pass@N (diversity collapse) on LiveCodeBench for GPT-OSS-20B.
+                    </div>
+                </div>
+                <div class="figure">
+                    <img src="assets/figure_rsa_qwen.png" alt="RSA collapse: Qwen3-4B-Instruct">
+                    <div class="figure-caption">
+                        Same diversity collapse pattern for Qwen3-4B-Instruct.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- V1-Infer Results: Following Section 4 -->
+        <div class="section">
+            <h2>V<sub>1</sub>-Infer Results</h2>
+
+            <p>
+                V<sub>1</sub>-Infer consistently outperforms pointwise self-verification across all benchmarks and models at N=16 candidate solutions. On code generation, V<sub>1</sub>-Infer achieves gains of <strong>+7.3%</strong> on CodeContests (GPT-OSS-20B), <strong>+8.6%</strong> on LiveCodeBench-v5, and <strong>+4.6%</strong> on LiveCodeBench-v6. On math reasoning, gains reach <strong>+10.0%</strong> on both AIME (Qwen3-4B-Instruct) and HMMT (GPT-OSS-20B).
+            </p>
+            <div class="figure">
+                <img src="assets/figure_main_results.png" alt="V1-Infer results across benchmarks">
+                <div class="figure-caption">
+                    Performance after self-verification using V<sub>1</sub>-Infer compared with pointwise self-verification across benchmarks and models at N=16 base generations.
+                </div>
+            </div>
+
+            <p>
+                <strong>Budget efficiency.</strong> V<sub>1</sub>-Infer consistently outperforms pointwise self-verification at equivalent total budgets (generation + verification calls) and shows monotonic performance scaling with compute. Even V<sub>1</sub>-Infer with N=8 outperforms Pointwise with N=16 at comparable budgets, demonstrating superior compute efficiency.
+            </p>
+            <div class="figure">
+                <img src="assets/figure_budget_accuracy.png" alt="Budget vs accuracy">
+                <div class="figure-caption">
+                    Accuracy vs. total budget (generation + verification calls). V<sub>1</sub>-Infer consistently outperforms pointwise at equivalent budgets and shows monotonic scaling.
+                </div>
+            </div>
+
+            <p>
+                <strong>Comparison with Recursive Self-Aggregation (RSA).</strong> On LiveCodeBench-v6 (N=16), V<sub>1</sub>-Infer achieves higher accuracy with fewer model calls compared to RSA. While RSA accuracy plateaus or degrades with additional aggregation steps due to diversity collapse, V<sub>1</sub>-Infer scales monotonically with verification budget.
+            </p>
+            <div class="figure">
+                <img src="assets/figure_rsa_v1_comparison.png" alt="V1-Infer vs RSA comparison">
+                <div class="figure-caption">
+                    Comparison with Recursive Self-Aggregation (RSA) on LCB-v6. V<sub>1</sub>-Infer achieves higher accuracy with fewer model calls.
+                </div>
+            </div>
+        </div>
+
+        <!-- Difficulty Analysis -->
+        <div class="section">
+            <h2>Largest Gains on Hard Problems</h2>
+            <p>
+                Pairwise verification provides the most significant improvements on harder problems. On <strong>hard problems</strong> in LiveCodeBench-v6 (GPT-OSS-20B, N=16), pairwise verification with 3x budget achieves <strong>+23.7%</strong> improvement over Pass@1, compared to +15.4% on medium and +0.7% on easy problems (which are already near ceiling at 96%).
+            </p>
+            <div class="figure">
+                <img src="assets/figure_difficulty.png" alt="Difficulty-level accuracy breakdown">
+                <div class="figure-caption">
+                    Accuracy by problem difficulty on LCB-v6 (GPT-OSS-20B, N=16) as verification budget increases. Hard problems benefit the most, gaining +23.7% at 3x budget.
+                </div>
+            </div>
+        </div>
+
+        <!-- SWE-bench -->
+        <div class="section">
+            <h2>Generalization to Software Engineering</h2>
+            <p>
+                V<sub>1</sub>-Infer generalizes beyond competitive programming and math to real-world software engineering tasks. On <strong>SWE-bench Lite</strong> (300 instances, 8 candidates, Gemini 2.5 Flash), pairwise verification achieves a <strong>33.3%</strong> resolve rate, outperforming pointwise (28.3%) and vanilla Pass@1 (26.3%). Notably, the verifier uses only issue descriptions and patch diffs, with no access to repository context or agent trajectories.
+            </p>
+            <div class="figure">
+                <img src="assets/figure_swe_bench.png" alt="SWE-bench Lite results">
+                <div class="figure-caption">
+                    Resolve rate on SWE-bench Lite (300 instances, N=8 candidates, Gemini 2.5 Flash). Pairwise verification achieves 33.3%, a +5.0% improvement over pointwise and +7.0% over vanilla.
+                </div>
+            </div>
+        </div>
+
+        <!-- V1-PairRL -->
+        <div class="section">
+            <h2>V<sub>1</sub>-PairRL: Joint Training Improves Both Generation and Verification</h2>
+            <p>
+                V<sub>1</sub>-PairRL jointly trains a single model as both solution generator and pairwise verifier using reinforcement learning. This co-evolving training yields three key benefits:
+            </p>
+            <ul class="result-list">
+                <li><strong>Stronger test-time scaling:</strong> V<sub>1</sub>-PairRL achieves 7&ndash;9% higher accuracy than V<sub>1</sub>-PointRL (pointwise joint training) when using pairwise verification at inference time across all code generation benchmarks.</li>
+                <li><strong>Better verification when paired with V<sub>1</sub>-Infer:</strong> V<sub>1</sub>-PairRL outperforms the standard RL baseline by +3.6% on LCB-v5, +1.9% on LCB-v6, and +8.9% on CodeContests, when both use V<sub>1</sub>-Infer at 2x budget.</li>
+                <li><strong>Improved base generation quality:</strong> Co-training with pairwise verification improves raw generation Pass@1 by up to +8.7% over the standard RL baseline (CodeContests), demonstrating that verification training feeds back into generation capability.</li>
+            </ul>
+            <div class="figure">
+                <img src="assets/figure_pairrl_results.png" alt="V1-PairRL training results">
+                <div class="figure-caption">
+                    V<sub>1</sub>-PairRL training results (Qwen3-4B-Instruct, N=16). <strong>Left:</strong> Test-time scaling gains over V<sub>1</sub>-PointRL at 1x and 2x budget. <strong>Middle:</strong> Comparison with RL baseline using V<sub>1</sub>-Infer at 2x budget. <strong>Right:</strong> Base Pass@1 improvement showing co-training improves generation quality.
+                </div>
+            </div>
+        </div>
+
+        <!-- Co-evolving Ablation -->
+        <div class="section">
+            <h2>Co-Evolving Training is Critical</h2>
+            <p>
+                An important ablation compares co-evolving V<sub>1</sub>-PairRL (where verification data comes from the model's own current rollouts) with a non-co-evolving variant (where verification is trained on fixed, offline data). Co-evolving training consistently outperforms across all benchmarks, with gains of <strong>+4.2% to +6.1%</strong>, confirming that keeping the verifier in-distribution with the generator's evolving output is crucial.
+            </p>
+            <div class="figure">
+                <img src="assets/figure_coevolving.png" alt="Co-evolving vs non-co-evolving ablation">
+                <div class="figure-caption">
+                    Co-evolving V<sub>1</sub>-PairRL consistently outperforms non-co-evolving training at 2x budget: +5.2% on LCB-v5, +4.2% on LCB-v6, and +6.1% on CodeContests.
+                </div>
+            </div>
+        </div>
+
+        <!-- Citation (will be added after arXiv submission) -->
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>
+                <a href="https://harmandotpy.github.io/">Harman Singh</a> |
+                UC Berkeley
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
