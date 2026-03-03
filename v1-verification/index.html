@@ -423,7 +423,7 @@
                 <div class="video-col">
                     <div class="video-label">V<sub>1</sub>-Infer Enables Accurate Self-Verification for Parallel Reasoners</div>
                     <div class="video-container">
-                        <video autoplay loop muted playsinline controls>
+                        <video id="vid-infer" loop muted playsinline controls>
                             <source src="assets/v1_infer_animation.mp4" type="video/mp4">
                         </video>
                     </div>
@@ -431,7 +431,7 @@
                 <div class="video-col">
                     <div class="video-label">V<sub>1</sub>-PairRL: Improving Pairwise Self-Verification via RL</div>
                     <div class="video-container">
-                        <video autoplay loop muted playsinline controls>
+                        <video id="vid-pairrl" loop muted playsinline controls>
                             <source src="assets/v1_pairrl_animation.mp4" type="video/mp4">
                         </video>
                     </div>
@@ -628,5 +628,23 @@
         </div>
     </footer>
 
+    <script>
+    (function() {
+        var v1 = document.getElementById('vid-infer');
+        var v2 = document.getElementById('vid-pairrl');
+        var ready = 0;
+        function tryPlay() {
+            ready++;
+            if (ready >= 2) {
+                v1.currentTime = 0;
+                v2.currentTime = 0;
+                v1.play();
+                v2.play();
+            }
+        }
+        v1.addEventListener('canplaythrough', tryPlay, {once: true});
+        v2.addEventListener('canplaythrough', tryPlay, {once: true});
+    })();
+    </script>
 </body>
 </html>
