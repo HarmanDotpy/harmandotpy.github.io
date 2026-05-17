@@ -97,10 +97,84 @@
               <strong>Harman Singh*</strong>, Xiuyu Li*, Kusha Sareen, Monishwaran Maheswaran, Sijun Tan, Xiaoxia Wu, Junxiong Wang, Alpay Ariyak, Qingyang Wu, Samir Khaki, Rishabh Tiwari, Long Lian, Yucheng Lu, Boyi Li, Alane Suhr, Ben Athiwaratkun, Kurt Keutzer
               <br>
               <br>
-              <strong style="color: #8B0000;">Under Review</strong>
+              <strong style="color: #8B0000;">ICML 2026</strong>
               <br>
               <a href="https://arxiv.org/abs/2603.04304v1">Paper</a> | <a href="https://harmandotpy.github.io/v1-verification/">Project Page</a> | <a href="https://github.com/HarmanDotpy/pairwise-self-verification">Code</a> | <a href="https://x.com/Harman26Singh/status/2029589615083225598">X</a>
               <p>A unified framework for pairwise self-verification and co-evolving RL training. V&#8321;-Infer improves Pass@1 by up to 10% over pointwise verification across code and math reasoning benchmarks. V&#8321;-PairRL achieves 7-9% test-time scaling gains over standard RL.</p>
+            </td>
+          </tr>
+
+          <tr height="200px">
+            <td style="padding:20px;width:30%;vertical-align:middle">
+              <img src="images/rcd.png" alt="Residual Context Diffusion" width="100%" >
+            </td>
+            <td width="100%" valign="middle">
+              <a href="https://arxiv.org/abs/2601.22954">
+                <papertitle>Residual Context Diffusion Language Models</papertitle>
+              </a>
+              <br>
+              Yuezhou Hu*, <strong>Harman Singh*</strong>, Monishwaran Maheswaran*, Haocheng Xi, Coleman Hooper, Jintao Zhang, Aditya Tomar, Michael W. Mahoney, Sewon Min, Mehrdad Farajtabar, Kurt Keutzer, Amir Gholami, Chenfeng Xu
+              <br>
+              <br>
+              <strong style="color: #8B0000;">ICML 2026</strong>
+              <br>
+              <a href="https://arxiv.org/abs/2601.22954">Paper</a> | <a href="https://github.com/yuezhouhu/residual-context-diffusion">Code</a>
+              <p>Block-wise diffusion language models waste computation by discarding low-confidence tokens during remasking. Residual Context Diffusion (RCD) converts these discarded token representations into contextual residuals injected into the next denoising step, improving parallel-decoding reasoning accuracy.</p>
+            </td>
+          </tr>
+
+          <tr height="200px">
+            <td style="padding:20px;width:30%;vertical-align:middle">
+              <img src="images/squeeze_evolve.png" alt="Squeeze Evolve" width="100%" >
+            </td>
+            <td width="100%" valign="middle">
+              <a href="https://arxiv.org/abs/2604.07725">
+                <papertitle>Squeeze Evolve: Unified Multi-Model Orchestration for Verifier-Free Evolution</papertitle>
+              </a>
+              <br>
+              Monishwaran Maheswaran, Leon Lakhani, Zhongzhu Zhou, Shijia Yang, Junxiong Wang, Coleman Hooper, Yuezhou Hu, Rishabh Tiwari, Jue Wang, <strong>Harman Singh</strong>, Qingyang Wu, Yuqing Jian, Ce Zhang, Kurt Keutzer, Tri Dao, Xiaoxia Wu, Ben Athiwaratkun, James Zou, Chenfeng Xu
+              <br>
+              <br>
+              <a href="https://arxiv.org/abs/2604.07725">Paper</a> | <a href="https://github.com/squeeze-evolve/squeeze-evolve">Code</a>
+              <p>A verifier-free evolutionary inference framework that orchestrates multiple models, allocating stronger models to high-impact stages and cheaper models elsewhere to mitigate diversity collapse while keeping compute economical.</p>
+            </td>
+          </tr>
+
+          <tr height="200px">
+            <td style="padding:20px;width:30%;vertical-align:middle">
+              <img src="images/losa.png" alt="LoSA" width="100%" >
+            </td>
+            <td width="100%" valign="middle">
+              <a href="https://arxiv.org/abs/2604.12056">
+                <papertitle>LoSA: Locality Aware Sparse Attention for Block-Wise Diffusion Language Models</papertitle>
+              </a>
+              <br>
+              Haocheng Xi, <strong>Harman Singh</strong>, Yuezhou Hu, Coleman Hooper, Rishabh Tiwari, Aditya Tomar, Minjae Lee, Wonjun Kang, Michael Mahoney, Chenfeng Xu, Kurt Keutzer, Amir Gholami
+              <br>
+              <br>
+              <strong style="color: #8B0000;">ICML 2026</strong>
+              <br>
+              <a href="https://arxiv.org/abs/2604.12056">Paper</a>
+              <p>Locality-aware sparse attention that reuses cached prefix-attention results for stable tokens and applies sparse attention only to active tokens, addressing the KV inflation problem and accelerating block-wise diffusion language models.</p>
+            </td>
+          </tr>
+
+          <tr height="200px">
+            <td style="padding:20px;width:30%;vertical-align:middle">
+              <img src="images/cdlm.png" alt="CDLM" width="100%" >
+            </td>
+            <td width="100%" valign="middle">
+              <a href="https://arxiv.org/abs/2511.19269">
+                <papertitle>CDLM: Consistency Diffusion Language Models For Faster Sampling</papertitle>
+              </a>
+              <br>
+              Minseo Kim, Chenfeng Xu, Coleman Hooper, <strong>Harman Singh</strong>, Ben Athiwaratkun, Ce Zhang, Kurt Keutzer, Amir Gholami
+              <br>
+              <br>
+              <strong style="color: #8B0000;">MLSys 2026</strong>
+              <br>
+              <a href="https://arxiv.org/abs/2511.19269">Paper</a> | <a href="https://github.com/SqueezeAILab/CDLM">Code</a>
+              <p>A training-based acceleration method that integrates consistency modeling to reduce the number of sampling steps for diffusion language models, enabling multi-token finalization with a block-wise causal attention mask compatible with KV caching.</p>
             </td>
           </tr>
 
@@ -125,17 +199,17 @@
 
           <tr height="200px">
             <td style="padding:20px;width:30%;vertical-align:middle">
-              <img src="images/curve_paper_fig.png" alt="CURVE" width="100%" >
+              <img src="images/curve_paper_fig.png" alt="MINERVA-Cultural" width="100%" >
             </td>
             <td width="100%" valign="middle">
               <a href="https://arxiv.org/abs/2601.10649">
-                <papertitle>CURVE: A Benchmark for Cultural and Multilingual Long Video Reasoning</papertitle>
+                <papertitle>MINERVA-Cultural: A Benchmark for Cultural and Multilingual Long Video Reasoning</papertitle>
               </a>
               <br>
               Darshan Singh, Arsha Nagrani, Kawshik Manikantan, <strong>Harman Singh</strong>, Dinesh Tewari, Tobias Weyand, Cordelia Schmid, Anelia Angelova, Shachi Dave
               <br>
               <br>
-              <strong style="color: #8B0000;">CVPR 2026</strong>
+              <strong style="color: #8B0000;">CVPR 2026 (Highlight)</strong>
               <br>
               <a href="https://arxiv.org/abs/2601.10649">Paper</a>
               <p>A benchmark for evaluating video understanding across 18 global regions with human-annotated questions in native languages, revealing significant performance gaps in state-of-the-art video language models on cultural visual comprehension.</p>
